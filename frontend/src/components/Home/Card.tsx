@@ -8,6 +8,20 @@ interface RoomTypeCardProps {
   url: string
 }
 
+/**
+ * A component that displays a card for a room type with image, room type label, and price.
+ * The card is wrapped in a Link that navigates to a detailed view of the room type.
+ * 
+ * @component
+ * @param {Object} props - The component props
+ * @param {Object} props.room - The room type data object
+ * @param {string} props.room.id_roomtype - Unique identifier for the room type
+ * @param {string} props.room.image - The image filename for the room
+ * @param {string} props.room.room_type - The room type designation
+ * @param {number} props.room.price - The room price
+ * @param {string} props.url - The base URL for the room images
+ * @returns {JSX.Element} A clickable room type card component
+ */
 export default function RoomTypeCard({ room, url }: RoomTypeCardProps) {
   return (
     <Link href={`/view/${room.id_roomtype}`}>

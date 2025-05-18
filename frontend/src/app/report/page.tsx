@@ -5,6 +5,19 @@ import { FacilityDetailResponse } from "@/types/facility";
 import { getServerSession } from "next-auth";
 import React from "react";
 
+/**
+ * Renders the report page component.
+ * 
+ * This async server component:
+ * 1. Retrieves the user session using getServerSession
+ * 2. Fetches facility details from the backend API
+ * 3. Gets the tenant ID associated with the current user
+ * 4. Renders the ReportPage client component with the required props
+ * 
+ * @returns {JSX.Element} The rendered ReportPage component wrapped in a div
+ * @throws {Error} If API requests fail or authentication is invalid
+ */
+
 async function page() {
   const session = await getServerSession(authOptions);
   let accessToken: string = "";
@@ -42,3 +55,11 @@ async function page() {
 }
 
 export default page;
+
+
+export async function generateMetadata() {
+  return {
+    title: "Report",
+    description: "Jaya Green Kost",
+  };
+}

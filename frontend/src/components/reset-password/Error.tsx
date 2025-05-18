@@ -1,5 +1,19 @@
 import Link from 'next/link'
 
+/**
+ * Component to display an error page when a password reset token is invalid or expired.
+ * 
+ * This component renders a full screen error message with:
+ * - An error heading indicating the token is invalid
+ * - A descriptive message explaining the token has expired or is invalid
+ * - A button to request a new reset link (navigates to /reset-password)
+ * - A link to the login page for users who remember their password
+ * 
+ * The component uses a green gradient background with responsive design.
+ * 
+ * @returns A React functional component displaying the error page
+ */
+
 export default function NotFound() {
   return (
     <div className="w-full h-screen p-4 bg-gradient-to-b from-white via-[#F0FEF0] via-[#C3E7C2] to-[#699F67] flex flex-col items-center justify-center overflow-hidden">

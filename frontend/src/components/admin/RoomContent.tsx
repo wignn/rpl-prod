@@ -12,7 +12,6 @@ import PageError from "../Error/PageError";
 
 interface Props {
   accessToken: string;
-  roomtypes: RoomTypeResponse[];
 }
 
 enum ROOMSTATUS {
@@ -20,7 +19,31 @@ enum ROOMSTATUS {
   NOTAVAILABLE = "NOTAVAILABLE",
 }
 
-export default function RoomContent({ accessToken, roomtypes }: Props) {
+/**
+ * RoomContent component for managing kost rooms in the admin interface.
+ * 
+ * This component provides functionality for:
+ * - Displaying a list of rooms with their details
+ * - Adding new rooms
+ * - Editing existing rooms
+ * - Deleting rooms
+ * - Refreshing the room list
+ * - Showing loading states and error messages
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.accessToken - JWT token for API authentication
+ * 
+ * @returns {JSX.Element} Room management interface that shows either:
+ * - Loading skeleton while fetching data
+ * - Error message if data fetching fails
+ * - Empty state UI when no rooms exist
+ * - Grid of room cards with details and action buttons
+ * - Room creation/editing modal when triggered
+ * - Confirmation dialog for deletions
+ * - Alert messages for operation feedback
+ */
+export default function RoomContent({ accessToken }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<
     RoomDetailResponse | undefined
@@ -29,6 +52,7 @@ export default function RoomContent({ accessToken, roomtypes }: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [roomtypes, setRoomTypes] = useState<RoomTypeResponse[]>([]);
 
   const handleAddClick = () => {
     setSelectedRoom(undefined);
@@ -73,14 +97,24 @@ export default function RoomContent({ accessToken, roomtypes }: Props) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await apiRequest<RoomDetailResponse[]>({
+    const [roomData, roomTypeData] = await Promise.all([
+      apiRequest<RoomDetailResponse[]>({
         endpoint: "/room",
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      });
-      setRooms(response);
+      }),
+      apiRequest<RoomTypeResponse[]>({
+        endpoint: "/roomtype",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    ]);
+    setRooms(roomData);
+    setRoomTypes(roomTypeData);
     } catch (error) {
       setError("Gagal memuat data kamar. Silakan coba lagi.");
       throw error;
@@ -175,7 +209,7 @@ export default function RoomContent({ accessToken, roomtypes }: Props) {
               <div className="p-4">
                 <div className="flex justify-between items-start mb-3">
                   <h4 className="text-lg font-medium text-gray-800">
-                    Kamar {room.id_room.slice(-4)}
+                    Kamar {room.id_room}
                   </h4>
                   <div
                     className={`px-2 py-1 rounded-full text-xs font-medium ${

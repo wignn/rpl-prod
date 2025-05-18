@@ -32,3 +32,11 @@ async function page({ params, searchParams }:PageProps) {
 }
 
 export default page;
+
+
+export async function generateMetadata() {
+  return {
+    title: "Reset Password",
+    description: 'Reset Password',
+  };
+}

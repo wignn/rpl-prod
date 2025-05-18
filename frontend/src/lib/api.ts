@@ -10,6 +10,23 @@ interface ApiRequestProps {
 /*
 this function is used(Blue Print) to make api requests to the backend
 */
+/**
+ * Makes an API request to the specified endpoint.
+ * 
+ * @template T - The expected return type of the API request.
+ * @param {object} ApiRequestProps - The options for the API request.
+ * @param {string} ApiRequestProps.endpoint - The API endpoint to request.
+ * @param {string} ApiRequestProps.method - The HTTP method to use for the request.
+ * @param {any} [ApiRequestProps.body] - The request body to send (will be JSON stringified).
+ * @param {Record<string, string>} [ApiRequestProps.headers={}] - Additional headers to include in the request.
+ * @returns {Promise<T>} A promise that resolves to the response body parsed as JSON.
+ * @throws {Error} If the fetch operation fails.
+ * @example
+ * const data = await apiRequest<UserData>({
+ *   endpoint: '/users/123',
+ *   method: 'GET'
+ * });
+ */
 export async function apiRequest<T>({
   endpoint,
   method,
@@ -30,7 +47,6 @@ export async function apiRequest<T>({
   };
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, config);
-    console.log("response", response);
     const responseBody = await response.json().catch(() => null);
     if (!response.ok) {
       const errorMessage = responseBody?.message || response.statusText;

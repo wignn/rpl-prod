@@ -16,6 +16,25 @@ enum REPORTSTATUS {
   PENDING = "PENDING",
 }
 
+/**
+ * ReportPage component for users to submit reports about damaged facilities.
+ * 
+ * This component provides a form where users can:
+ * - Select a damaged facility from a list
+ * - Specify the date of damage
+ * - Add a detailed description about the issue
+ * - Submit the report
+ *
+ * The component handles form submission through an API request and displays
+ * success/error alerts to provide feedback to the user.
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.accessToken - Authentication token for API requests
+ * @param {Array} props.facilities - List of available facilities that can be reported
+ * @param {string} props.tenatId - ID of the tenant making the report
+ * @returns {JSX.Element} Report submission form with responsive design
+ */
+
 export default function ReportPage({
   accessToken,
   facilities,

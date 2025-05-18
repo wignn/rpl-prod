@@ -35,6 +35,28 @@ interface RoomTypeModalProps {
   facilities: FacilityDetailResponse[];
 }
 
+/**
+ * A modal component for creating or updating room types.
+ * 
+ * This component provides a form to add or edit room type details including:
+ * - Room type name
+ * - Monthly price
+ * - Room image upload
+ * - Facility selection
+ * 
+ * It handles form validation, image uploading, and API integration for CRUD operations.
+ * 
+ * @param {Object} props - Component properties
+ * @param {boolean} props.isOpen - Controls visibility of the modal
+ * @param {Function} props.onClose - Callback function when modal is closed
+ * @param {Function} props.showAlert - Function to display alert messages (success/error)
+ * @param {Array} props.facilities - Available facilities to choose from
+ * @param {Function} props.onRefresh - Callback function to refresh parent data after successful operation
+ * @param {Object|null} props.roomType - Room type data for update mode (null for create mode)
+ * @param {string} props.baseUrl - Base URL for image paths
+ * 
+ * @returns {JSX.Element|null} The modal component or null if not open
+ */
 export default function RoomTypeModal({
   isOpen,
   onClose,

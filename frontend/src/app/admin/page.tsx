@@ -1,9 +1,8 @@
 import AdminDashboard from "@/components/admin/AdminDashboard";
 import { apiRequest } from "@/lib/api";
 import { authOptions } from "@/lib/auth";
-import { FacilityDetailResponse } from "@/types/facility";
 import { FinanceDetailsResponse } from "@/types/finance";
-import { RoomDetailResponse, RoomTypeResponse } from "@/types/room";
+import { RoomDetailResponse } from "@/types/room";
 import { UserDetailResponse } from "@/types/user";
 import { getServerSession } from "next-auth";
 
@@ -16,11 +15,24 @@ interface Activity {
 }
 
 
+/**
+ * Admin dashboard page component that fetches user details, financial data,
+ * and room information from the server.
+ * 
+ * This component:
+ * - Retrieves the user's session using getServerSession
+ * - Makes parallel API requests to fetch various data
+ * - Calculates metrics like empty rooms, occupied rooms, and net income
+ * - Transforms financial data into activity logs
+ * - Renders the AdminDashboard component with all fetched and calculated data
+ * 
+ * @returns {Promise<JSX.Element>} The rendered AdminDashboard component with all necessary props
+ * @throws {Error} Throws any errors that occur during data fetching
+ */
+
 export default async function Home() {
   let user: UserDetailResponse | undefined;
   let accessToken: string = "";
-  let facilities: FacilityDetailResponse[] = [];
-  let roomtype: RoomTypeResponse[] = [];
   let kamarKosong: number = 0;
   let pendapatan: number = 0;
   let kamarTerisi: number = 0;
@@ -32,27 +44,12 @@ export default async function Home() {
 
     if (session) {
       accessToken = session?.backendTokens.accessToken || "";
-      const [users, facilitiy, roomtypes, finance, room] = await Promise.all([
+      const [users, finance, room] = await Promise.all([
         apiRequest<UserDetailResponse>({
           endpoint: `/users/${session.id_user}`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${session.backendTokens.accessToken}`,
-          },
-        }),
-        apiRequest<FacilityDetailResponse[]>({
-          endpoint: "/facility",
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${session.backendTokens.accessToken}`,
-          },
-        }),
-
-        apiRequest<RoomTypeResponse[]>({
-          endpoint: "/roomtype",
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }),
 
@@ -72,8 +69,6 @@ export default async function Home() {
           },
         }),
       ]);
-
-
 
       actifity = finance.map((item) => ({
         id: item.id_finance,
@@ -98,8 +93,6 @@ export default async function Home() {
       
       pendapatan = income - expenses;
       user = users;
-      facilities = facilitiy;
-      roomtype = roomtypes;
     }
   } catch (error) {
     throw error;
@@ -111,12 +104,18 @@ export default async function Home() {
       actifity={actifity}
       kamar={kamar}
       kamarTerisi={kamarTerisi}
-      roomtype={roomtype}
       kamarKosong={kamarKosong}
-      facilities={facilities}
       pendapatan={pendapatan}
       accessToken={accessToken}
       user={user as UserDetailResponse}
     />
   );
+}
+
+
+export async function generateMetadata() {
+  return {
+    title: "Admin",
+    description: "Jaya Green Kost",
+  };
 }

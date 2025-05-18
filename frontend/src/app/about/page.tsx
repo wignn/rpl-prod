@@ -35,3 +35,10 @@ async function page() {
 }
 
 export default page
+
+export async function generateMetadata() {
+  return {
+    title: 'Tentang Kami',
+    description: 'Jaya Green Kost',
+  }
+}

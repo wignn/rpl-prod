@@ -6,6 +6,24 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { UserDetailResponse } from '@/types/user';
 
+/**
+ * Renders the home page of the application.
+ * 
+ * This async function fetches room types and user details (if authenticated) from the API,
+ * then renders the Home component with the fetched data.
+ * 
+ * @async
+ * @function page
+ * @returns {Promise<JSX.Element>} The rendered Home component wrapped in a div
+ * 
+ * @throws {Error} When API requests fail
+ * 
+ * @example
+ * // This function is typically used by Next.js routing
+ * // and doesn't need to be called directly
+ */
+
+
 async function page() {
     let roomtype:RoomTypeResponse[] = []
     let user:UserDetailResponse | undefined = undefined; 
@@ -36,3 +54,11 @@ async function page() {
 }
 
 export default page
+
+
+export async function generateMetadata() {
+    return {
+        title: 'Home',
+        description: 'Jaya Green Kost',
+    }
+}

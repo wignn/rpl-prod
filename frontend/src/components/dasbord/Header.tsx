@@ -10,6 +10,18 @@ interface HeaderProps {
   user: UserDetailResponse;
 }
 
+/**
+ * Header component for dashboard layout
+ * 
+ * Displays the top navigation bar with user information and dropdown menu
+ * that contains profile navigation options and sign out functionality.
+ * 
+ * @param {Object} props - The component props
+ * @param {Object} props.user - User object containing user information
+ * @param {boolean} props.showUserDropdown - State to control dropdown visibility
+ * @param {Function} props.setShowUserDropdown - Function to toggle dropdown visibility
+ * @returns {JSX.Element} Header component with user dropdown menu
+ */
 export default function Header({
   user,
   showUserDropdown,

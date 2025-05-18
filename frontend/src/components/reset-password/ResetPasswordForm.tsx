@@ -9,6 +9,28 @@ interface Props {
     phone: string
 }
 
+/**
+ * Reset Password Page component that provides a form for users to set a new password.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.token - The reset password token received from the reset request
+ * @param {string} props.phone - The user's phone number associated with the account
+ * 
+ * @returns {JSX.Element} A form interface for users to reset their password
+ * 
+ * @example
+ * ```tsx
+ * <ResetPasswordPage token="reset-token-123" phone="6281234567890" />
+ * ```
+ * 
+ * The component manages several states:
+ * - Password visibility toggles for both fields
+ * - Password and confirmation input values
+ * - Form submission status (loading, error, success)
+ * 
+ * On successful password reset, the user is redirected to the login page after 2 seconds.
+ */
 export default function ResetPasswordPage({token, phone}: Props) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)

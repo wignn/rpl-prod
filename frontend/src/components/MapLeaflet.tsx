@@ -4,7 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix ikon marker tidak muncul
+
+
 const proto = L.Icon.Default.prototype as unknown as { _getIconUrl?: () => string };
 delete proto._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -18,6 +19,15 @@ interface Props {
   lng: number;
 }
 
+/**
+ * MapLeaflet component displays an OpenStreetMap with a marker at the specified coordinates.
+ * 
+ * @component
+ * @param {Object} props - The component props
+ * @param {number} props.lat - The latitude coordinate for the map center and marker
+ * @param {number} props.lng - The longitude coordinate for the map center and marker
+ * @returns {JSX.Element} A map container with a marker at the specified location
+ */
 export default function MapLeaflet({ lat, lng }: Props) {
   return (
     <MapContainer

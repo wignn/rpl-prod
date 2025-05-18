@@ -14,15 +14,29 @@ import PageError from "../Error/PageError";
 
 interface Props {
   accessToken: string;
-  facilities: FacilityDetailResponse[];
   baseUrl: string;
 }
 
-export default function RoomsTypeContent({
-  accessToken,
-  facilities,
-  baseUrl,
-}: Props) {
+/**
+ * Component for managing room types in the admin interface.
+ * 
+ * Provides functionality to:
+ * - View all room types with their details and images
+ * - Add new room types
+ * - Edit existing room types
+ * - Delete room types
+ * - View associated facilities for each room type
+ * 
+ * The component manages state for modal dialogs, confirmation dialogs, 
+ * loading states, and error handling. It fetches both room types and 
+ * facility data on initial load.
+ * 
+ * @param {object} props - Component properties
+ * @param {string} props.accessToken - JWT token for API authentication
+ * @param {string} props.baseUrl - Base URL for the API and image references
+ * @returns {JSX.Element} Room type management interface
+ */
+export default function RoomsTypeContent({ accessToken, baseUrl }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRoomType, setSelectedRoomType] = useState<
     RoomTypeResponse | undefined
@@ -31,20 +45,31 @@ export default function RoomsTypeContent({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-  const [roomTypeToDelete, setRoomTypeToDelete] =
-    useState<RoomTypeResponse | null>(null);
-
+  const [roomTypeToDelete, setRoomTypeToDelete] = useState<RoomTypeResponse | null>(null);
+  const [facilities, setFacilities] = useState<FacilityDetailResponse[]>([]);
   const fetchRoomTypes = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await apiRequest<RoomTypeResponse[]>({
-        endpoint: "/roomtype",
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setRoomTypes(response);
+      const [roomtypeData, facilities] = await Promise.all([
+        apiRequest<RoomTypeResponse[]>({
+          endpoint: "/roomtype",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }),
+    
+        apiRequest<FacilityDetailResponse[]>({
+          endpoint: "/facility",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }),
+      ]);
+      
+      setFacilities(facilities);
+      setRoomTypes(roomtypeData);
       setError(null);
     } catch (error) {
       setError("Gagal memuat data tipe kamar");

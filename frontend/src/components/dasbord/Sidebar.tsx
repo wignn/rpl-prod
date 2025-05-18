@@ -8,6 +8,28 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void
 }
 
+/**
+ * Sidebar component for the dashboard with responsive mobile support
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.activeTab - Currently active tab in the sidebar
+ * @param {function} props.setActiveTab - Function to set the active tab
+ * 
+ * @example
+ * ```tsx
+ * <Sidebar activeTab="dashboard" setActiveTab={setActiveTab} />
+ * ```
+ * 
+ * @description
+ * This sidebar provides navigation for the dashboard with the following features:
+ * - Responsive design with mobile and desktop layouts
+ * - Mobile drawer that can be toggled with a button
+ * - Closes automatically when clicking outside on mobile
+ * - Disables body scroll when mobile sidebar is open
+ * - Highlights the currently active tab
+ * - Navigation options for different dashboard sections
+ */
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)

@@ -15,6 +15,34 @@ interface Props {
   url: string
 }
 
+/**
+ * PropertyDetail Component
+ * 
+ * A React component for displaying detailed information about a specific room type in a boarding house (kost).
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.roomType - Information about the room type
+ * @param {string} props.roomType.room_type - The name/type of the room
+ * @param {number} props.roomType.price - The monthly price of the room
+ * @param {string} props.roomType.image - Image filename of the room
+ * @param {Array} props.roomType.facility - List of facilities available for the room
+ * @param {string} props.roomType.facility[].facility_name - Name of individual facility
+ * @param {string} props.url - Base URL for image paths
+ * 
+ * @returns {JSX.Element} A detailed view of the room type with images, description, facilities, location, and booking option
+ * 
+ * @example
+ * <PropertyDetail 
+ *   roomType={{
+ *     room_type: "Standard",
+ *     price: 1500000,
+ *     image: "room-standard.jpg",
+ *     facility: [{ facility_name: "WiFi" }, { facility_name: "Air Conditioning" }]
+ *   }}
+ *   url="https://example.com/images"
+ * />
+ */
 export default function PropertyDetail({ roomType, url }: Props) {
   const [isImageFullscreen, setIsImageFullscreen] = useState(false)
 

@@ -12,6 +12,30 @@ interface Props {
   url: string;
 }
 
+/**
+ * Home component that serves as the main landing page for a kost service.
+ * 
+ * The component displays information about the housing facility (Green Kost Jaya),
+ * room types available for rent, and additional functionality for tenants.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Array<Object>} props.roomtype - Array of room type objects to be displayed
+ * @param {Object|null} props.user - Current user object with role information, if authenticated
+ * @param {string} props.url - Base URL for API requests or resource paths
+ * 
+ * @example
+ * ```tsx
+ * <Home 
+ *   roomtype={roomTypeData} 
+ *   user={currentUser} 
+ *   url="https://api.example.com" 
+ * />
+ * ```
+ * 
+ * @returns React component that displays the home page with navigation, property information,
+ *          room type listings, and conditional maintenance reporting section for tenants
+ */
 export default function Home({ roomtype, user, url }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-100 via-green-200 to-green-400">

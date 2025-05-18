@@ -5,6 +5,21 @@ interface Props {
   onRefresh: () => void;
 }
 
+/**
+ * Component to display an error message with a refresh button.
+ * 
+ * @component
+ * @param {object} props - Component props
+ * @param {string} props.error - The error message to display
+ * @param {() => void} props.onRefresh - Callback function triggered when the retry button is clicked
+ * @returns {JSX.Element} A styled error message container with refresh button
+ * 
+ * @example
+ * <PageError 
+ *   error="Failed to load data" 
+ *   onRefresh={() => fetchData()} 
+ * />
+ */
 function PageError({ error, onRefresh }: Props) {
   return (
     <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">

@@ -7,6 +7,23 @@ interface Props {
   user: boolean;
 }
 
+/**
+ * AdminNavbar component provides navigation for admin users.
+ * 
+ * This component renders a navigation bar with links to various admin pages
+ * and a logout button if a user is logged in.
+ * 
+ * @component
+ * @param {Props} props - The component props
+ * @param {object} props.user - The user object. When present, displays logout button
+ * 
+ * @returns {JSX.Element} A navigation bar with admin links and logout functionality
+ * 
+ * @example
+ * ```tsx
+ * <AdminNavbar user={currentUser} />
+ * ```
+ */
 function AdminNavbar({ user }: Props) {
   const handleLogout = async () => {
     await signOut({

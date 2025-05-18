@@ -11,6 +11,26 @@ interface HeaderProps {
   user: UserDetailResponse | undefined
 }
 
+/**
+ * Header component for site navigation.
+ * 
+ * This component renders a responsive navbar with different layouts for mobile and desktop views.
+ * It includes navigation links, login/logout functionality, and special admin access when applicable.
+ * 
+ * Features:
+ * - Responsive design with hamburger menu on mobile
+ * - Navigation links (Home, About, Room Types, Order)
+ * - Conditional admin access link
+ * - Authentication controls (login/logout)
+ * 
+ * @param {Object} props - Component props
+ * @param {string} props.tipeKamarHref - URL for the room types page
+ * @param {Object|null} props.user - Current user object with role information, or null if not logged in
+ * @param {string} [props.user.role] - User role, used to determine admin access
+ * 
+ * @returns {JSX.Element} Rendered header component
+ */
+
 const Header = ({ tipeKamarHref, user }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
