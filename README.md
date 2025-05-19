@@ -76,7 +76,7 @@ Defined in `compose.yaml`:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/wignn/rpl-frontend.git
+git clone https://github.com/wignn/rpl-prod.git
 cd rpl-frontend
 ```
 
