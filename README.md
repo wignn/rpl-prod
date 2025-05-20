@@ -80,6 +80,24 @@ git clone https://github.com/wignn/rpl-frontend.git
 cd rpl-frontend
 ```
 
+### Setting Up Environment Variables
+
+Before running the application, you need to set up environment variables for each service. Follow these steps:
+
+1. **Rename `.env.example` to `.env`**  
+   For each service (`backend`, `client`, `frontend`), copy the `.env.example` file and rename it to `.env`.
+
+   ```bash
+   cp backend/.env.example backend/.env
+   cp client/.env.example client/.env
+   cp frontend/.env.example frontend/.env
+   ```
+
+2. **Edit the `.env` Files**  
+   Open each `.env` file and fill in the required values such as API keys, database URLs, secrets, etc.
+
+---
+
 ### docker-compose build
 
 Navigate to the project root and run:

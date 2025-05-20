@@ -53,6 +53,7 @@ export class UsersController {
     return this.usersService.signIn(request);
   }
 
+  
   @UseGuards(JwtGuard)
   @Get()
   @ApiResponse({

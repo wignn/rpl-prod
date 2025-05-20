@@ -48,10 +48,9 @@ const Header = ({ tipeKamarHref, user }: HeaderProps) => {
   return (
     <header className="py-4 px-4 md:px-8 border-b border-gray-300 shadow-md relative">
       <div className="container mx-auto flex items-center justify-between">
-        {/* Kost name on the left */}
         <div className="flex-shrink-0">
           <Link href="/" className="font-bold text-green-600 text-xl">
-            Nama Kost
+            Jaya Green Kost
           </Link>
         </div>
 

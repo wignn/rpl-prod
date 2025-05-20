@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { TenantService } from './tenant.service';
 import {
   TenantCreateRequest,
@@ -6,11 +16,13 @@ import {
   TenantUpdateRequest,
 } from 'src/models/tenant.model';
 import { ApiResponse } from '@nestjs/swagger';
+import { JwtGuard } from 'src/guards/jwt.guard';
 
 @Controller('api/tenant')
 export class TenantController {
   constructor(private tenantservice: TenantService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
   @HttpCode(200)
   @ApiResponse({
@@ -24,6 +36,7 @@ export class TenantController {
     return this.tenantservice.create(request);
   }
 
+  @UseGuards(JwtGuard)
   @Get()
   @HttpCode(200)
   @ApiResponse({
@@ -35,6 +48,7 @@ export class TenantController {
     return this.tenantservice.findAll();
   }
 
+  @UseGuards(JwtGuard)
   @Put(':id')
   @HttpCode(200)
   @ApiResponse({
@@ -49,6 +63,7 @@ export class TenantController {
     return this.tenantservice.update(id, request);
   }
 
+  @UseGuards(JwtGuard)
   @Delete(':id')
   @HttpCode(200)
   @ApiResponse({
@@ -59,4 +74,14 @@ export class TenantController {
     return this.tenantservice.delete(id);
   }
 
+  @UseGuards(JwtGuard)
+  @Get('record')
+  @HttpCode(200)
+  @ApiResponse({
+    status: 200,
+    description: 'Tenant rent record retrieved successfully',
+  })
+  async recordRent() {
+    return this.tenantservice.recordRent();
+  }
 }

@@ -8,16 +8,19 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ReportService } from './report.service';
 import { ReportCreateRequest, ReportResponse,ReportDetailResponse, PaginatedReportResponse } from 'src/models/report.model';
 import { ApiResponse } from '@nestjs/swagger';
 import { DeleteResponse } from 'src/models/common.model';
+import { JwtGuard } from 'src/guards/jwt.guard';
 
 @Controller('api/report')
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
   @HttpCode(200)
   @ApiResponse({
@@ -29,6 +32,8 @@ export class ReportController {
     return this.reportService.create(request);
   }
 
+  
+  @UseGuards(JwtGuard)
   @Get()
   @HttpCode(200)
   @ApiResponse({
@@ -45,6 +50,8 @@ export class ReportController {
     return this.reportService.findAll(parseInt(page), parseInt(limit), month, search);
   }
   
+  
+  @UseGuards(JwtGuard)
   @Get(':id')
   @HttpCode(200)
   @ApiResponse({
@@ -56,6 +63,8 @@ export class ReportController {
     return this.reportService.findOne(id);
   }
 
+  
+  @UseGuards(JwtGuard)
   @Put(':id')
   @HttpCode(200)
   @ApiResponse({
@@ -70,6 +79,8 @@ export class ReportController {
     return this.reportService.update(id, request);
   }
 
+  
+  @UseGuards(JwtGuard)
   @Delete(':id')
   @HttpCode(200)
   @ApiResponse({

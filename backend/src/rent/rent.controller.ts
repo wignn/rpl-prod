@@ -1,13 +1,15 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { RentDetailsResponse } from 'src/models/rent.model';
 import { ApiResponse } from '@nestjs/swagger';
+import { JwtGuard } from 'src/guards/jwt.guard';
 
 @Controller('api/rent')
 export class RentController {
     constructor(private readonly rentService: RentService){}
 
-    
+
+    @UseGuards(JwtGuard)
     @Get()
     @ApiResponse({
         status: 200,
@@ -24,7 +26,7 @@ export class RentController {
     }
 
 
-
+    @UseGuards(JwtGuard)
     @Get(':id_rent')
     @ApiResponse({
         status: 200,

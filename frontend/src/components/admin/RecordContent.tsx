@@ -79,7 +79,7 @@ export default function RecordContent({
     setIsLoading(true);
     try {
       const result = await apiRequest<Tenant[]>({
-        endpoint: `/tenant`,
+        endpoint: `/tenant/record`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,

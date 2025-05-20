@@ -301,6 +301,10 @@ async update(
       where: { id_room: tenant?.rentData?.roomId },
       data: { status: 'AVAILABLE' },
     })
+    await this.prismaService.rentData.update({
+      where: { id_rent: tenant?.rentData?.id_rent },
+      data: { deleted: true, rent_out: new Date() },
+    })
 
     if (!tenant) {
       throw new HttpException('Tenant not found', 404);
@@ -312,5 +316,53 @@ async update(
     });
 
     return { message: 'Tenant deleted successfully' };
+  }
+
+  async recordRent() {
+    const data = await this.prismaService.tenant.findMany({
+      where: {
+        AND: [
+          { user: { role: 'TENANT' } },
+      ]
+      },
+      include: {
+        user: true,
+        rentData: {
+          include: {
+            room: {
+              include: {
+                roomType: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return data.map((tenant) => ({
+      id_tenant: tenant.id_tenant,
+      address: tenant.address,
+      no_ktp: tenant.no_ktp,
+      status: tenant.status,
+      no_telp: tenant.no_telp,
+      full_name: tenant.full_name,
+      deleted: tenant.deleted,
+      rent: {
+        id_rent: tenant.rentData?.id_rent ?? null,
+        id_tenant: tenant.rentData?.tenantId ?? null,
+        id_room: tenant.rentData?.roomId ?? null,
+        rent_date: tenant.rentData?.rent_date ?? null,
+        rent_out: tenant.rentData?.rent_out ?? null,
+      },
+      room: tenant.rentData
+        ? {
+            id_room: tenant.rentData.roomId,
+            room_name: tenant.rentData.room?.roomType?.room_type ?? null,
+            rent_in: tenant.rentData.rent_date,
+            rent_out: tenant.rentData.rent_out,
+            status: tenant.rentData.room?.status ?? null,
+          }
+        : null,
+    }));
   }
 }

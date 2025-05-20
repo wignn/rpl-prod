@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { FinanceService } from './finance.service';
 import { FinanceCreateRequest, FinanceDetailsResponse, FinanceResponse } from 'src/models/finance.model';
 import { ApiResponse } from '@nestjs/swagger';
+import { JwtGuard } from 'src/guards/jwt.guard';
 
 @Controller('api/finance')
 export class FinanceController {
@@ -9,6 +10,7 @@ export class FinanceController {
         private readonly financeService: FinanceService
     ){}
 
+    @UseGuards(JwtGuard)
     @Post()
     @HttpCode(200)
     @ApiResponse({
@@ -22,6 +24,7 @@ export class FinanceController {
         return this.financeService.create(request);
     }
 
+    @UseGuards(JwtGuard)
     @Get()
     @HttpCode(200)
     @ApiResponse({
@@ -35,6 +38,7 @@ export class FinanceController {
         return this.financeService.getAll();
     }
 
+    @UseGuards(JwtGuard)
     @Get(':id')
     @HttpCode(200)
     @ApiResponse({
@@ -49,6 +53,7 @@ export class FinanceController {
     }
 
     
+    @UseGuards(JwtGuard)
     @Put(':id')
     @HttpCode(200)
     @ApiResponse({
@@ -63,6 +68,7 @@ export class FinanceController {
         return this.financeService.update(id, request);
     }
 
+    @UseGuards(JwtGuard)
     @Delete(':id')
     @HttpCode(200)
     @ApiResponse({
