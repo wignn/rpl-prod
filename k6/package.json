@@ -12,5 +12,8 @@
   "description": "",
   "devDependencies": {
     "@types/k6": "^1.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0"
   }
 }
