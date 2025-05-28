@@ -15,7 +15,7 @@ export default function() {
     },
   };
   
-  let res = http.get('http://localhost:4000/api/room', params);
+  let res = http.get('http://202.10.47.102:4000/api/facility', params);
   check(res, { "status is 200": (res) => res.status === 200 });
   sleep(1);
 }

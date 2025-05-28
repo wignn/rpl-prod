@@ -233,9 +233,9 @@ export default function RoomTypeModal({
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+    e.preventDefault(); 
     // Validate form and image
+    
     const isFormValid = validateForm();
     const isImageValid = validateImage();
     

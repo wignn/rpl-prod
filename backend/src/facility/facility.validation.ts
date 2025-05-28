@@ -2,7 +2,7 @@ import { z, ZodType } from "zod";
 
 export class FasilityValidation {
     static readonly CREATE: ZodType = z.object({
-        facility_name: z.string().min(4),
+        facility_name: z.string().min(2),
         desc : z.string().min(4),
     })
 

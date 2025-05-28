@@ -180,6 +180,10 @@ app.post("/api/send-message", async (req, res) => {
     console.log("📱".yellow + " Initializing WhatsApp client...".cyan);
     initializeWhatsApp();
 
+
+    /*
+    this is a logic to send billing reminders every day at 18:52 WIB
+    */
     cron.schedule(
       "0 52 18 * * *", 
       async () => {
