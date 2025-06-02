@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:18
 
 # Install dependencies required by Chromium
 RUN apt-get update && apt-get install -y \

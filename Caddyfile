@@ -1,9 +1,6 @@
-# change with real domain
-exemple.cloud {
+
+
+jaya-green-kost.cloud {
   reverse_proxy frontend:3000;
 }
 
-# change with real domain
-exemple.cloud {
-  reverse_proxy backend:4000;
-}

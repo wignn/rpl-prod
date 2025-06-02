@@ -1,4 +1,3 @@
-"use strict";
 require("dotenv").config();
 require("colors");
 const express = require("express");
@@ -14,7 +13,7 @@ const prisma = globalForPrisma.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 const register = new promClient.Registry();
-promClient.collectDefaultMetrics({ register }); 
+promClient.collectDefaultMetrics({ register });
 
 const whatsappMessagesSent = new promClient.Counter({
   name: "whatsapp_messages_sent_total",
@@ -93,23 +92,24 @@ async function checkAndSendBillingReminders() {
   const today = new Date();
 
   for (const tenant of tenants) {
-    if (!tenant.rentData.rent_date || !tenant.no_telp) continue;
+    if (!tenant.rentData?.rent_date || !tenant.no_telp) continue;
 
-    const reminderDate = subDays(new Date(tenant.rentData.rent_date), 3);
-    console.log(
-      `Checking ${tenant.full_name} (${tenant.no_telp}) for reminder on ${reminderDate.toLocaleDateString()}`
-    );
+    // Validasi tanggal
+    const rentDate = new Date(tenant.rentData.rent_date);
+    if (isNaN(rentDate.getTime())) {
+      console.warn(`Invalid rent_date for tenant ${tenant.full_name}:`, tenant.rentData.rent_date);
+      continue;
+    }
+
+    const reminderDate = subDays(rentDate, 3);
+    console.log(`Checking ${tenant.full_name} (${tenant.no_telp}) for reminder on ${reminderDate.toLocaleDateString()}`);
 
     if (isSameDay(today, reminderDate)) {
       const formattedNumber = formatPhoneNumber(tenant.no_telp);
-      const message = `Halo ${
-        tenant.full_name
-      }, ini pengingat bahwa Anda memiliki tagihan kos pada tanggal ${new Date(
-        tenant.rentData.rent_date
-      ).toLocaleDateString()}. Mohon lakukan pembayaran tepat waktu.`;
+      const message = `Halo ${tenant.full_name}, ini pengingat bahwa Anda memiliki tagihan kos pada tanggal ${rentDate.toLocaleDateString()}. Mohon lakukan pembayaran tepat waktu.`;
       try {
         await sendWhatsAppMessage(formattedNumber, message);
-        console.log(`✅ Reminder sent to ${tenant.rentData.rent_date}`);
+        console.log(`✅ Reminder sent to ${tenant.full_name}`);
 
         whatsappMessagesSent.inc();
       } catch (err) {
@@ -180,12 +180,11 @@ app.post("/api/send-message", async (req, res) => {
     console.log("📱".yellow + " Initializing WhatsApp client...".cyan);
     initializeWhatsApp();
 
-
     /*
     this is a logic to send billing reminders every day at 18:52 WIB
     */
     cron.schedule(
-      "0 52 18 * * *", 
+      "0 52 18 * * *",
       async () => {
         console.log("⏰ Menjalankan pengingat tagihan (18:52 WIB)...");
         try {

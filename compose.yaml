@@ -1,12 +1,13 @@
 services:
   db:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     restart: always
     env_file: .env
     ports:
       - "5432:5432"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
+
 
   backend:
     build: ./backend
@@ -53,18 +54,19 @@ services:
       - '9090:9090'
     depends_on:
       - backend
-  # caddy:
-  #   image: caddy:latest
-  #   restart: always
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./Caddyfile:/etc/caddy/Caddyfile
-  #     - caddy_data:/data
-  #     - caddy_config:/config
-  #   depends_on:
-  #     - frontend
+  caddy:
+    image: caddy:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+
 
 
 volumes:
