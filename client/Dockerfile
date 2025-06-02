@@ -1,6 +1,6 @@
 FROM node:18
 
-# Install dependencies required by Chromium
+# Install dependencies required by Chromium dan timezone
 RUN apt-get update && apt-get install -y \
   wget \
   ca-certificates \
@@ -20,7 +20,11 @@ RUN apt-get update && apt-get install -y \
   xdg-utils \
   libgbm1 \
   libglib2.0-0 \
+  tzdata \                            
   && rm -rf /var/lib/apt/lists/*
+
+# Set timezone ke Asia/Jakarta
+ENV TZ=Asia/Jakarta
 
 # Workdir dan copy app
 WORKDIR /usr/src/app
