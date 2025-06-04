@@ -118,8 +118,7 @@ export default function PropertyDetail({ roomType, url }: Props) {
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Deskripsi Kost</h2>
             <p className="text-gray-700 leading-relaxed">
-              Kost tipe {roomType.room_type} terdapat kamar dengan pintu untuk privasi penyewa serta terdapat ruang
-              makan sendiri. Untuk harga single dan pasutri itu sama yaitu {formatPrice(roomType.price)}.
+              Kost tipe {roomType.room_type} terdapat kamar dengan pintu untuk privasi penyewa. Untuk harga single dan pasutri itu sama yaitu {formatPrice(roomType.price)}.
             </p>
           </div>
 
