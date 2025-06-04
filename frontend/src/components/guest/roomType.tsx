@@ -1,25 +1,27 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import {Wifi, Droplets, Zap, Home, MapPin } from "lucide-react"
-import type { RoomTypeResponse } from "@/types/room"
-import Link from "next/link"
-import { useState } from "react"
-import { data } from "@/lib/static"
-import dynamic from 'next/dynamic';
+import Image from "next/image";
+import { Wifi, Droplets, Zap, Home, MapPin, AirVentIcon } from "lucide-react";
+import type { RoomTypeResponse } from "@/types/room";
+import Link from "next/link";
+import { useState } from "react";
+import { data } from "@/lib/static";
+import dynamic from "next/dynamic";
 
-const MapLeaflet = dynamic(() => import('@/components/MapLeaflet'), { ssr: false });
+const MapLeaflet = dynamic(() => import("@/components/MapLeaflet"), {
+  ssr: false,
+});
 
 interface Props {
-  roomType: RoomTypeResponse
-  url: string
+  roomType: RoomTypeResponse;
+  url: string;
 }
 
 /**
  * PropertyDetail Component
- * 
+ *
  * A React component for displaying detailed information about a specific room type in a boarding house (kost).
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {Object} props.roomType - Information about the room type
@@ -29,11 +31,11 @@ interface Props {
  * @param {Array} props.roomType.facility - List of facilities available for the room
  * @param {string} props.roomType.facility[].facility_name - Name of individual facility
  * @param {string} props.url - Base URL for image paths
- * 
+ *
  * @returns {JSX.Element} A detailed view of the room type with images, description, facilities, location, and booking option
- * 
+ *
  * @example
- * <PropertyDetail 
+ * <PropertyDetail
  *   roomType={{
  *     room_type: "Standard",
  *     price: 1500000,
@@ -44,20 +46,23 @@ interface Props {
  * />
  */
 export default function PropertyDetail({ roomType, url }: Props) {
-  const [isImageFullscreen, setIsImageFullscreen] = useState(false)
+  const [isImageFullscreen, setIsImageFullscreen] = useState(false);
 
   const formatPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-  }
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
 
   const getFacilityIcon = (name: string) => {
-    const lowerName = name.toLowerCase()
-    if (lowerName.includes("wifi")) return <Wifi className="w-5 h-5 text-green-600" />
-    if (lowerName.includes("air") || lowerName.includes("water")) return <Droplets className="w-5 h-5 text-green-600" />
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes("wifi"))
+      return <Wifi className="w-5 h-5 text-green-600" />;
+    if (lowerName.includes("air") || lowerName.includes("water"))
+      return <Droplets className="w-5 h-5 text-green-600" />;
+    if (lowerName.includes("ac")) return <AirVentIcon className="w-5 h-5 text-green-600"  />;
     if (lowerName.includes("listrik") || lowerName.includes("electric"))
-      return <Zap className="w-5 h-5 text-green-600" />
-    return <Home className="w-5 h-5 text-green-600" />
-  }
+      return <Zap className="w-5 h-5 text-green-600" />;
+    return <Home className="w-5 h-5 text-green-600" />;
+  };
 
   return (
     <main className="container mx-auto px-4 py-6 max-w-7xl">
@@ -71,17 +76,19 @@ export default function PropertyDetail({ roomType, url }: Props) {
           Tipe Kamar
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900 font-medium">Kost {roomType.room_type}</span>
+        <span className="text-gray-900 font-medium">
+          Kost {roomType.room_type}
+        </span>
       </div>
 
       <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Kost {roomType.room_type}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+          Kost {roomType.room_type}
+        </h1>
         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
           <div className="flex items-center">
             <MapPin className="w-4 h-4 text-gray-600 mr-1" />
-            <p className="text-sm text-gray-600">
-              {data.alamat}
-            </p>
+            <p className="text-sm text-gray-600">{data.alamat}</p>
           </div>
           {/* <div className="flex items-center">
             <Star className="w-4 h-4 text-yellow-500 mr-1" />
@@ -90,7 +97,6 @@ export default function PropertyDetail({ roomType, url }: Props) {
           </div> */}
         </div>
       </div>
-
 
       <div className="mb-8">
         <div className="relative">
@@ -116,9 +122,13 @@ export default function PropertyDetail({ roomType, url }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Deskripsi Kost</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Deskripsi Kost
+            </h2>
             <p className="text-gray-700 leading-relaxed">
-              Kost tipe {roomType.room_type} terdapat kamar dengan pintu untuk privasi penyewa. Untuk harga single dan pasutri itu sama yaitu {formatPrice(roomType.price)}.
+              Kost tipe {roomType.room_type} terdapat kamar dengan pintu untuk
+              privasi penyewa. Untuk harga {" "}
+              {formatPrice(roomType.price)}.
             </p>
           </div>
 
@@ -126,9 +136,14 @@ export default function PropertyDetail({ roomType, url }: Props) {
             <h2 className="text-xl font-bold text-gray-800 mb-4">Fasilitas</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {roomType.facility.map((facility, index) => (
-                <div key={index} className="flex items-center p-3 bg-green-50 rounded-lg border border-green-100">
+                <div
+                  key={index}
+                  className="flex items-center p-3 bg-green-50 rounded-lg border border-green-100"
+                >
                   {getFacilityIcon(facility.facility_name)}
-                  <span className="ml-3 text-sm font-medium text-gray-800">{facility.facility_name}</span>
+                  <span className="ml-3 text-sm font-medium text-gray-800">
+                    {facility.facility_name}
+                  </span>
                 </div>
               ))}
             </div>
@@ -138,9 +153,8 @@ export default function PropertyDetail({ roomType, url }: Props) {
             <h2 className="text-xl font-bold text-gray-800 mb-4">Lokasi</h2>
             <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
               <div className="w-full h-full flex items-center justify-center">
-            <MapLeaflet lat={-6.322189261099615} lng={107.33368275548138} />
+                <MapLeaflet lat={-6.322189261099615} lng={107.33368275548138} />
               </div>
-            
             </div>
             <p className="mt-4 text-gray-700">{data.alamat}</p>
           </div>
@@ -150,11 +164,15 @@ export default function PropertyDetail({ roomType, url }: Props) {
           <div className="bg-white rounded-xl shadow-sm p-6 sticky top-4">
             <h3 className="text-2xl font-bold text-gray-800 mb-2">
               Rp {formatPrice(roomType.price)}
-              <span className="text-sm font-normal text-gray-600 ml-1">/bulan</span>
+              <span className="text-sm font-normal text-gray-600 ml-1">
+                /bulan
+              </span>
             </h3>
 
             <div className="border-t border-b border-gray-100 py-4 my-4">
-              <h4 className="font-medium text-gray-800 mb-3">Informasi Tambahan:</h4>
+              <h4 className="font-medium text-gray-800 mb-3">
+                Informasi Tambahan:
+              </h4>
               <div className="space-y-2">
                 <p className="text-sm text-gray-600 flex items-center">
                   <Zap className="w-4 h-4 mr-2 text-gray-500" />
@@ -162,7 +180,7 @@ export default function PropertyDetail({ roomType, url }: Props) {
                 </p>
                 <p className="text-sm text-gray-600 flex items-center">
                   <Droplets className="w-4 h-4 mr-2 text-gray-500" />
-                  Termasuk token air
+                  Air free
                 </p>
               </div>
             </div>
@@ -187,7 +205,7 @@ export default function PropertyDetail({ roomType, url }: Props) {
         >
           <div className="relative max-w-4xl max-h-[90vh]">
             <button
-            title="Close"
+              title="Close"
               className="absolute top-4 right-4 bg-white rounded-full p-2 text-black"
               onClick={() => setIsImageFullscreen(false)}
             >
@@ -217,5 +235,5 @@ export default function PropertyDetail({ roomType, url }: Props) {
         </div>
       )}
     </main>
-  )
+  );
 }

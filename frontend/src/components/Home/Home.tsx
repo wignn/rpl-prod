@@ -70,7 +70,7 @@ export default function Home({ roomtype, user, url }: Props) {
             {roomtype.map((type, index) => (
               <RoomTypeCard
                 key={type.id_roomtype}
-                room={{ ...type, room_type: String.fromCharCode(65 + index) }}
+                room={type}
                 url={url}
               />
             ))}
