@@ -14,25 +14,25 @@ interface Props {
 
 /**
  * Home component that serves as the main landing page for a kost service.
- * 
+ *
  * The component displays information about the housing facility (Green Kost Jaya),
  * room types available for rent, and additional functionality for tenants.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {Array<Object>} props.roomtype - Array of room type objects to be displayed
  * @param {Object|null} props.user - Current user object with role information, if authenticated
  * @param {string} props.url - Base URL for API requests or resource paths
- * 
+ *
  * @example
  * ```tsx
- * <Home 
- *   roomtype={roomTypeData} 
- *   user={currentUser} 
- *   url="https://api.example.com" 
+ * <Home
+ *   roomtype={roomTypeData}
+ *   user={currentUser}
+ *   url="https://api.example.com"
  * />
  * ```
- * 
+ *
  * @returns React component that displays the home page with navigation, property information,
  *          room type listings, and conditional maintenance reporting section for tenants
  */
@@ -66,7 +66,7 @@ export default function Home({ roomtype, user, url }: Props) {
             Tipe Kamar
           </h2>
 
-          <div className="grid grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6">
             {roomtype.map((type, index) => (
               <RoomTypeCard
                 key={type.id_roomtype}
@@ -75,17 +75,6 @@ export default function Home({ roomtype, user, url }: Props) {
               />
             ))}
           </div>
-
-          {roomtype.length > 4 && (
-            <div className="flex justify-center">
-              <div className="w-1/2">
-                <RoomTypeCard
-                  room={{ ...roomtype[4], room_type: "E" }}
-                  url={url}
-                />
-              </div>
-            </div>
-          )}
         </section>
 
         {user && user.role === "TENANT" && (
