@@ -67,7 +67,7 @@ export default function Home({ roomtype, user, url }: Props) {
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6">
-            {roomtype.map((type, index) => (
+            {roomtype.map((type) => (
               <RoomTypeCard
                 key={type.id_roomtype}
                 room={type}
