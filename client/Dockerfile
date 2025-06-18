@@ -28,7 +28,14 @@ ENV TZ=Asia/Jakarta
 
 # Workdir dan copy app
 WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
 COPY . .
+
+RUN npx prisma generate
 
 # Install dependencies
 RUN npm install

@@ -8,7 +8,6 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
 
-
   backend:
     build: ./backend
     restart: always
@@ -54,11 +53,12 @@ services:
       - '9090:9090'
     depends_on:
       - backend
+
   caddy:
     image: caddy:latest
     restart: always
     ports:
-      - "80:80"
+      - "80:80" 
       - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
@@ -67,9 +67,8 @@ services:
     depends_on:
       - frontend
 
-
-
 volumes:
-  db-data:
   caddy_data:
   caddy_config:
+  db_data:
+

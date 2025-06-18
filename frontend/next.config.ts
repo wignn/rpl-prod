@@ -11,10 +11,6 @@ const nextConfig: NextConfig = {
         pathname: "/files/**",
       },
     ],
-    domains: [
-      "yucky-vonni-va5to-ccb92850.koyeb.app",
-      "localhost"
-    ]
   },
 };
 
